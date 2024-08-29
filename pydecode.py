@@ -22,8 +22,7 @@ def decode_morse_code(morse_code):
         letters = word.split()
         decoded_word = ''
         for letter in letters:
-            if letter in morse_code_dict:
-                decoded_word += morse_code_dict[letter]
+            decoded_word += morse_code_dict.get(letter, '')
         decoded_message.append(decoded_word)
 
     return ' '.join(decoded_message)
@@ -44,6 +43,14 @@ def decode_hex(hex_str):
     decoded_string = decoded_bytes.decode('utf-8')
     return decoded_string
 
+def decode_base32(base32_str):
+    try:
+        decoded_bytes = base64.b32decode(base32_str.upper(), casefold=True)
+        decoded_string = decoded_bytes.decode('utf-8')
+        return decoded_string
+    except Exception as e:
+        return f"Erro: {e}"
+
 def rot13_decode(text):
     decoded_chars = []
     for char in text:
@@ -58,6 +65,42 @@ def rot13_decode(text):
             decoded_chars.append(chr(shifted))
         else:
             decoded_chars.append(char)
+    return ''.join(decoded_chars)
+
+def rot47_decode(text):
+    decoded_chars = []
+    for char in text:
+        if 33 <= ord(char) <= 126:
+            shifted = 33 + ((ord(char) - 33 + 47) % 94)
+            decoded_chars.append(chr(shifted))
+        else:
+            decoded_chars.append(char)
+    return ''.join(decoded_chars)
+
+def decode_leet_speak(text):
+    leet_dict = {
+        '4': 'A', '3': 'E', '1': 'I', '0': 'O', '7': 'T',
+        '5': 'S', '2': 'Z', '8': 'B', '@': 'A', '9': 'G',
+        '$': 'S', '(': 'C', ')': 'C', '|': 'I', '[': 'B',
+        ']': 'B', '6': 'G', '#': 'H', '^': 'V', '<': 'L',
+        '>': 'L', '+': 'T', '/': 'F', '\\': 'F',
+        ':': 'I', ';': 'I', '~': 'N', '`': 'I', '£': 'S',
+        '¢': 'C', '¨': 'I', '°': 'O', '?': 'C', '!': 'I',
+    }
+    
+    decoded_chars = []
+    i = 0
+    while i < len(text):
+        if i < len(text) - 1 and text[i:i+2] in leet_dict:
+            decoded_chars.append(leet_dict[text[i:i+2]])
+            i += 2
+        elif text[i] in leet_dict:
+            decoded_chars.append(leet_dict[text[i]])
+            i += 1
+        else:
+            decoded_chars.append(text[i])
+            i += 1
+
     return ''.join(decoded_chars)
 
 def md5_hash(text):
@@ -118,12 +161,16 @@ if __name__ == '__main__':
         print("* 4. Decode Base64          *")
         print("* 5. Decode Binário         *")
         print("* 6. Decode Hexadecimal     *")
-        print("* 7. Decode ROT13           *")
-        print("* 8. Decode MD5             *")
-        print("* 9. Decode SHA-224         *")
-        print("* 10. Decode SHA-256        *")
-        print("* 11. Decode SHA-384        *")
-        print("* 12. Decode SHA-512        *")
+        print("* 7. Decode Base16          *")
+        print("* 8. Decode Base32          *")
+        print("* 9. Decode ROT-47          *")
+        print("* 10. Decode Leet Speak     *")
+        print("* 11. Decode ROT13          *")
+        print("* 12. Decode MD5            *")
+        print("* 13. Decode SHA-224        *")
+        print("* 14. Decode SHA-256        *")
+        print("* 15. Decode SHA-384        *")
+        print("* 16. Decode SHA-512        *")
         print("* 0. Sair                   *")
         print("*****************************")
         print("* instagram: @rafael_cyber1 *")
@@ -189,41 +236,73 @@ if __name__ == '__main__':
                 print("Erro ao decodificar hexadecimal:", e)
 
         elif escolha == '7':
-            # Opção 7: Decode ROT13
+            # Opção 7: Decode Base16
+            base16_string = input("Digite o código em Base16: ")
+
+            try:
+                decoded_text = decode_hex(base16_string)  # Usando a mesma função que o hexadecimal
+                print("Texto decodificado:", decoded_text)
+            except Exception as e:
+                print("Erro ao decodificar Base16:", e)
+
+        elif escolha == '8':
+            # Opção 8: Decode Base32
+            base32_string = input("Digite o código em Base32: ")
+
+            try:
+                decoded_text = decode_base32(base32_string)
+                print("Texto decodificado:", decoded_text)
+            except Exception as e:
+                print("Erro ao decodificar Base32:", e)
+
+        elif escolha == '9':
+            # Opção 9: Decode ROT-47
+            rot47_string = input("Digite o texto codificado com ROT-47: ")
+            decoded_text = rot47_decode(rot47_string)
+            print("Texto decodificado:", decoded_text)
+
+        elif escolha == '10':
+            # Opção 10: Decode Leet Speak
+            leet_string = input("Digite o texto codificado em Leet Speak: ")
+            decoded_text = decode_leet_speak(leet_string)
+            print("Texto decodificado:", decoded_text)
+
+        elif escolha == '11':
+            # Opção 11: Decode ROT13
             texto_codificado = input("Digite o texto codificado com ROT13: ")
             texto_decodificado = rot13_decode(texto_codificado)
             print("Texto decodificado:", texto_decodificado)
 
-        elif escolha == '8':
-            # Opção 8: Quebrar hash MD5 com wordlist
+        elif escolha == '12':
+            # Opção 12: Quebrar hash MD5 com wordlist
             hash_to_break = input("Digite o hash MD5 a ser quebrado: ").strip()
             wordlist_file = input("Digite o caminho para o arquivo da wordlist: ").strip()
             result = break_hash(hash_to_break, wordlist_file, 'md5')
             print(result)
 
-        elif escolha == '9':
-            # Opção 9: Quebrar hash SHA-224 com wordlist
+        elif escolha == '13':
+            # Opção 13: Quebrar hash SHA-224 com wordlist
             hash_to_break = input("Digite o hash SHA-224 a ser quebrado: ").strip()
             wordlist_file = input("Digite o caminho para o arquivo da wordlist: ").strip()
             result = break_hash(hash_to_break, wordlist_file, 'sha224')
             print(result)
 
-        elif escolha == '10':
-            # Opção 10: Quebrar hash SHA-256 com wordlist
+        elif escolha == '14':
+            # Opção 14: Quebrar hash SHA-256 com wordlist
             hash_to_break = input("Digite o hash SHA-256 a ser quebrado: ").strip()
             wordlist_file = input("Digite o caminho para o arquivo da wordlist: ").strip()
             result = break_hash(hash_to_break, wordlist_file, 'sha256')
             print(result)
 
-        elif escolha == '11':
-            # Opção 11: Quebrar hash SHA-384 com wordlist
+        elif escolha == '15':
+            # Opção 15: Quebrar hash SHA-384 com wordlist
             hash_to_break = input("Digite o hash SHA-384 a ser quebrado: ").strip()
             wordlist_file = input("Digite o caminho para o arquivo da wordlist: ").strip()
             result = break_hash(hash_to_break, wordlist_file, 'sha384')
             print(result)
 
-        elif escolha == '12':
-            # Opção 12: Quebrar hash SHA-512 com wordlist
+        elif escolha == '16':
+            # Opção 16: Quebrar hash SHA-512 com wordlist
             hash_to_break = input("Digite o hash SHA-512 a ser quebrado: ").strip()
             wordlist_file = input("Digite o caminho para o arquivo da wordlist: ").strip()
             result = break_hash(hash_to_break, wordlist_file, 'sha512')
@@ -237,3 +316,4 @@ if __name__ == '__main__':
             print("Opção inválida. Escolha novamente.")
 
         input("Pressione Enter para continuar...")
+        
