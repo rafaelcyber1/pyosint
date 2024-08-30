@@ -9,6 +9,8 @@ packages = [
     "requests",
     "beautifulsoup4",
     "dnspython"
+    "yt-dlp",
+    "audioread",
 ]
 
 for package in packages:
