@@ -1,0 +1,235 @@
+import requests
+import whois
+import dns.resolver
+import os
+import hashlib
+from datetime import datetime
+from bs4 import BeautifulSoup
+
+# Dicionário com as redes sociais e seus URLs base para busca de usernames
+print("*****************************")
+print("* instagram: @rafael_cyber1 *")
+print("*****************************")
+social_media_urls = {
+    'Instagram': 'https://www.instagram.com/{}',
+    'Twitter': 'https://twitter.com/{}',
+    'Discord': 'https://discord.com/users/{}',
+    'Reddit': 'https://www.reddit.com/user/{}',
+    'Medium': 'https://medium.com/@{}',
+    'Facebook': 'https://www.facebook.com/{}',
+    'GitHub': 'https://github.com/{}',
+    'Snapchat': 'https://www.snapchat.com/add/{}',
+    'WeChat': 'https://weixin.qq.com/u/{}',
+    'LinkedIn': 'https://www.linkedin.com/in/{}',
+    'Skype': 'https://join.skype.com/invite/{}',
+    'Spotify': 'https://open.spotify.com/user/{}',
+    'Pinterest': 'https://www.pinterest.com/{}/',
+    'YouTube': 'https://www.youtube.com/{}',
+    'Twitch': 'https://www.twitch.tv/{}',
+    'TikTok': 'https://www.tiktok.com/@{}',
+    'Xvideos': 'https://www.xvideos.com/profiles/{}',
+    'Xnxx': 'https://www.xnxx.com/profile/{}',
+    'Pornhub': 'https://www.pornhub.com/users/{}',
+    'FreeCodeCamp': 'https://www.freecodecamp.org/{}',
+    'TryHackMe': 'https://tryhackme.com/p/{}',
+    'Freelancer': 'https://www.freelancer.com/u/{}',
+    'FreelancerBR': 'https://www.freelancer.com.br/u/{}',
+    'Privacy': 'https://privacy.com/{}',
+    'OnlyFans': 'https://onlyfans.com/{}',
+    'GitLab': 'https://gitlab.com/{}',
+    'Archive.org': 'https://archive.org/details/@{}',
+    'Pr0gramm': 'https://pr0gramm.com/user/{}',
+    'Fandom': 'https://www.fandom.com/wiki/User:{}',
+    'Interpals': 'https://www.interpals.net/{}',
+    'PSNProfiles': 'https://psnprofiles.com/{}',
+    'About.me': 'https://about.me/{}',
+    'PyPI': 'https://pypi.org/user/{}',
+    'Tumblr': 'https://{}.tumblr.com/',
+    '9GAG': 'https://9gag.com/u/{}',
+    'VK': 'https://vk.com/{}',
+    'Flickr': 'https://www.flickr.com/people/{}',
+    'YouPic': 'https://youpic.com/photographer/{}',
+    'MyAnimeList': 'https://myanimelist.net/profile/{}',
+    'Wattpad': 'https://www.wattpad.com/user/{}',
+    'MySpace': 'https://myspace.com/{}',
+    'Passes': 'https://passes.com/{}',
+    'Disqus': 'https://disqus.com/by/{}',
+    'Threads': 'https://threads.net/{}',
+    'XHamster': 'https://xhamster.com/users/{}',
+    'Sharesome': 'https://sharesome.com/{}',
+    'YouPorn': 'https://youporn.com/users/{}',
+    'Chaturbate': 'https://chaturbate.com/{}',
+    'BongaCams': 'https://pt.bongacams.com/profile/{}',
+    'Tinder': 'https://tinder.com/@{}',
+    'LiveJasmin': 'https://livejasmin.com/{}',
+    '7 Cups': 'https://www.7cups.com/{}',
+    'Apclips': 'https://apclips.com/{}',
+    'AdmireMe': 'https://admireme.vip/{}',
+    'Airbit': 'https://airbit.com/{}',
+    'AllMyLinks': 'https://allmylinks.com/{}',
+    'AllThingsWorn': 'https://www.allthingsworn.com/{}',
+    'AniWorld': 'https://aniworld.to/{}',
+    'AniList': 'https://anilist.co/{}',
+    'ArtStation': 'https://www.artstation.com/{}',
+    'Blipfoto': 'https://www.blipfoto.com/{}',
+    'Blogger': 'https://www.blogger.com/{}',
+    'RedTube': 'https://www.redtube.com.br/{}',
+    'RoyalCams': 'https://pt.royalcams.com/{}',
+    'Shpock': 'https://www.shpock.com/{}',
+    'Scribd': 'https://pt.scribd.com/{}',
+    'Scratch': 'https://scratch.mit.edu/{}',
+    'ImgSrc': 'https://imgsrc.ru/{}',
+    'MercadoLivre': 'https://www.mercadolivre.com.br/{}',
+    'Note': 'https://note.com/{}',
+    'PicsArt': 'https://picsart.com/{}',
+    'Dailymotion': 'https://www.dailymotion.com/br/{}',
+    'PlayStore': 'https://play.google.com/store/search?q={}',
+    'Chess': 'https://www.chess.com/member/{}',
+    'Xbox': 'https://www.xbox.com/en-US/profile/{}',
+    'OLX': 'https://www.olx.com.br/{}',
+    'Vivino': 'https://www.vivino.com/users/{}',
+    'Naturabuy': 'https://www.naturabuy.fr/{}',
+    'eBay': 'https://www.ebay.com/usr/{}',
+    'Sporcle': 'https://www.sporcle.com/user/{}',
+    'FlickrBlog': 'https://blog.flickr.net/en/{}',
+    'SEOClerk': 'https://www.seoclerk.com/user/{}',
+    'Cracked': 'https://cracked.io/member/{}',
+    'DemonForums': 'https://demonforums.net/members/{}'
+}
+
+# Cache simples para armazenar respostas de páginas
+cache_dir = 'cache'
+
+def get_page_content(url):
+    """Função para obter o conteúdo de uma página, com cache."""
+    cache_filename = hashlib.md5(url.encode()).hexdigest() + '.html'
+    cache_path = os.path.join(cache_dir, cache_filename)
+
+    if os.path.exists(cache_path):
+        with open(cache_path, 'r', encoding='utf-8') as f:
+            return f.read()
+
+    try:
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.9999.999 Safari/537.36'
+        }
+        response = requests.get(url, headers=headers, timeout=20)
+        if response.status_code == 200:
+            content = response.text
+            # Salvar no cache
+            os.makedirs(cache_dir, exist_ok=True)
+            with open(cache_path, 'w', encoding='utf-8') as f:
+                f.write(content)
+            return content
+        else:
+            return None
+    except requests.exceptions.RequestException as e:
+        print(f'[!] Erro ao acessar {url}: {e}')
+        return None
+
+def check_social_media(username):
+    results_found = False
+    for social_media, url_template in social_media_urls.items():
+        base_url = url_template.format(username)
+        try:
+            content = get_page_content(base_url)
+            if content:
+                soup = BeautifulSoup(content, 'html.parser')
+                # Exemplo de verificação específica para Instagram
+                if social_media == 'Instagram':
+                    if soup.find('meta', property='og:title', content=f'@{username} • Instagram photos and videos'):
+                        print(f'[+] Username encontrado no {social_media}: {base_url}')
+                        results_found = True
+                # Exemplo genérico de verificação
+                elif username in soup.get_text():
+                    print(f'[+] Username encontrado no {social_media}: {base_url}')
+                    results_found = True
+        except Exception as e:
+            print(f'[!] Erro de requisição para {social_media}: {e}')
+
+    if not results_found:
+        print(f'[-] Nenhum resultado encontrado para o username "{username}"')
+
+def sherlock(username):
+    print(f'[+] Iniciando busca por "{username}"...\n')
+    check_social_media(username)
+
+def consulta_dns_whois_ip(domain):
+    print(f'\nConsultando registros DNS para o domínio: {domain}')
+    try:
+        # Consultar DNS
+        a_records = [r.address for r in dns.resolver.resolve(domain, 'A')]
+        aaaa_records = [r.address for r in dns.resolver.resolve(domain, 'AAAA')]
+        
+        if a_records:
+            for ip in a_records:
+                print(f'{domain} tem endereço IPv4: {ip}')
+        else:
+            print(f'Nenhum registro A encontrado para {domain}')
+        
+        if aaaa_records:
+            for ip in aaaa_records:
+                print(f'{domain} tem endereço IPv6: {ip}')
+        else:
+            print(f'Nenhum registro AAAA encontrado para {domain}')
+    except Exception as e:
+        print(f'[!] Erro ao consultar DNS: {e}')
+    
+    print(f'\nConsultando informações WHOIS para o domínio: {domain}')
+    try:
+        whois_info = whois.whois(domain)
+        print('Dados brutos do WHOIS:')
+        for key, value in whois_info.items():
+            if isinstance(value, datetime):
+                value = value.strftime('%Y-%m-%d %H:%M:%S')
+            print(f'{key}: {value}')
+    except Exception as e:
+        print(f'[!] Erro ao buscar informações WHOIS: {e}')
+
+    print(f'\nConsultando informações IPs')
+    try:
+        # Verificar IPs obtidos
+        all_ips = a_records + aaaa_records
+        for ip in all_ips:
+            print(f'Consultando IP: {ip}')
+            response = requests.get(f'http://ip-api.com/json/{ip}')
+            if response.status_code == 200:
+                data = response.json()
+                print(f'Localização do IP {ip}:')
+                print(f'    País: {data.get("country", "Desconhecido")}')
+                print(f'    Região: {data.get("regionName", "Desconhecido")}')
+                print(f'    Cidade: {data.get("city", "Desconhecido")}')
+                print(f'    CEP: {data.get("zip", "Desconhecido")}')
+                print(f'    ISP: {data.get("isp", "Desconhecido")}')
+            else:
+                print(f'[!] Erro ao consultar IP {ip}')
+    except Exception as e:
+        print(f'[!] Erro ao consultar IPs: {e}')
+
+def menu():
+    while True:
+        print("\nMenu:")
+        print("1. Verificar Usernames")
+        print("2. DNS, WHOIS, IP")
+        print("3. Consultar CNPJ")
+        print("4. Sair")
+
+        choice = input("Escolha uma opção (1/2/3/4): ")
+
+        if choice == '1':
+            username = input("Digite o username a ser pesquisado: ")
+            sherlock(username)
+        elif choice == '2':
+            domain = input("Digite o domínio (ex: exemplo.com): ")
+            consulta_dns_whois_ip(domain)
+        elif choice == '3':
+            cnpj = input("Digite o CNPJ (ex: 00000000000): ")
+            consulta_cnpj(cnpj)  # Supondo que você tem uma função `consulta_cnpj`
+        elif choice == '4':
+            print("Saindo...")
+            break
+        else:
+            print("Opção inválida. Tente novamente.")
+
+if __name__ == "__main__":
+    menu()
