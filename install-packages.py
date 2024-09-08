@@ -8,8 +8,7 @@ packages = [
     "python-whois",
     "requests",
     "beautifulsoup4",
-    "dnspython"
-    "yt-dlp",
+    "dnspython",
     "audioread",
 ]
 
