@@ -9,7 +9,6 @@ packages = [
     "requests",
     "beautifulsoup4",
     "dnspython",
-    "audioread",
 ]
 
 for package in packages:
