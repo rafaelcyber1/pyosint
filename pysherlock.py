@@ -84,7 +84,7 @@ social_media_urls = {
     'Dailymotion': 'https://www.dailymotion.com/br/{}',
     'Cont.ws': 'https://cont.ws/@{}',
     'Estante Virtual': 'https://www.estantevirtual.com.br/busca?editora={}',
-    'Kawai': 'https://www.kwai.com/@{}',
+    'Kwai': 'https://www.kwai.com/@{}',
     'Disqus': 'https://disqus.com/by/{}/?',
     'Hack This Site': 'https://www.hackthissite.org/user/view/{}'
 }
