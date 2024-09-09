@@ -12,7 +12,6 @@ print("* instagram: @rafael_cyber1 *")
 print("*****************************")
 social_media_urls = {
     'Instagram': 'https://www.instagram.com/{}',
-    'Twitter': 'https://twitter.com/{}',
     'Discord': 'https://discord.com/users/{}',
     'Reddit': 'https://www.reddit.com/user/{}',
     'Medium': 'https://medium.com/@{}',
@@ -82,7 +81,12 @@ social_media_urls = {
     'MercadoLivre': 'https://www.mercadolivre.com.br/{}',
     'Note': 'https://note.com/{}',
     'PicsArt': 'https://picsart.com/{}',
-    'Dailymotion': 'https://www.dailymotion.com/br/{}'
+    'Dailymotion': 'https://www.dailymotion.com/br/{}',
+    'Cont.ws': 'https://cont.ws/@{}',
+    'Estante Virtual': 'https://www.estantevirtual.com.br/busca?editora={}',
+    'Kawai': 'https://www.kwai.com/@{}',
+    'Disqus': 'https://disqus.com/by/{}/?',
+    'Hack This Site': 'https://www.hackthissite.org/user/view/{}'
 }
 
 # Cache simples para armazenar respostas de páginas
