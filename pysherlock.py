@@ -86,7 +86,9 @@ social_media_urls = {
     'Estante Virtual': 'https://www.estantevirtual.com.br/busca?editora={}',
     'Kwai': 'https://www.kwai.com/@{}',
     'Disqus': 'https://disqus.com/by/{}/?',
-    'Hack This Site': 'https://www.hackthissite.org/user/view/{}'
+    'Hack This Site': 'https://www.hackthissite.org/user/view/{}',
+    'Telegram': 'https://t.me/{}',
+    'Duolingo': 'https://www.duolingo.com/profile/{}'
 }
 
 # Cache simples para armazenar respostas de páginas
