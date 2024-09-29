@@ -88,7 +88,21 @@ social_media_urls = {
     'Disqus': 'https://disqus.com/by/{}/?',
     'Hack This Site': 'https://www.hackthissite.org/user/view/{}',
     'Telegram': 'https://t.me/{}',
-    'Duolingo': 'https://www.duolingo.com/profile/{}'
+    'Duolingo': 'https://www.duolingo.com/profile/{}',
+    'Hentai City': 'https://www.hentaicity.com/profile/{}',
+    'Strip Chat': 'https://stripchat.com/user/{}',
+    'Ifunnny': 'https://br.ifunny.co/user/{}',
+    'Itch': 'https://itch.io/profile/{}',
+    'Etsy': 'https://www.etsy.com/pt/people/{}?ref=l_review',
+    'Ludopedia': 'https://ludopedia.com.br/usuario/{}',
+    'Viva o Linux': 'https://www.vivaolinux.com.br/~{}',
+    'Cursos Alura': 'https://cursos.alura.com.br/user/{}',
+    'Guj': 'https://www.guj.com.br/u/{}/summary',
+    'Mk Auth': 'https://mk-auth.com.br/members/{}',
+    'Forum Elipse': 'https://forum.elipse.com.br/u/{}/summary',
+    'Home Assistent': 'https://homeassistantbrasil.com.br/u/{}/summary',
+    'Endian Eth0': 'https://endian.eth0.com.br/forums/profile/{}',
+    'Vakinha': 'https://www.vakinha.com.br/usuario/{}'
 }
 
 # Cache simples para armazenar respostas de páginas
