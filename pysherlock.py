@@ -102,8 +102,8 @@ social_media_urls = {
     'Forum Elipse': 'https://forum.elipse.com.br/u/{}/summary',
     'Home Assistent': 'https://homeassistantbrasil.com.br/u/{}/summary',
     'Endian Eth0': 'https://endian.eth0.com.br/forums/profile/{}',
-    'Vakinha': 'https://www.vakinha.com.br/usuario/{}'
-        'Mastodon': 'https://mastodon.social/@{}',
+    'Vakinha': 'https://www.vakinha.com.br/usuario/{}',
+    'Mastodon': 'https://mastodon.social/@{}',
     'Anime Planet': 'https://www.anime-planet.com/users/{}',
     'Bsky': 'https://bsky.app/profile/{}.bsky.social',
     'Live Journal': 'https://{}.livejournal.com/',
