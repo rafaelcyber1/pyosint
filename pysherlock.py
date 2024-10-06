@@ -140,7 +140,8 @@ social_media_urls = {
     'Revista Forum': 'https://revistaforum.com.br/autor/{}.html',
     'Viex Americanas': 'https://www.viex-americas.com/{}/',
     'Community Kobotoolbox': 'https://community.kobotoolbox.org/u/{}/summary',
-    'Forum Asana': 'https://forum.asana.com/u/{}/summary'
+    'Forum Asana': 'https://forum.asana.com/u/{}/summary',
+    'UFBA Academia': 'https://ufba.academia.edu/{}'
 }
 
 # Cache simples para armazenar respostas de páginas
