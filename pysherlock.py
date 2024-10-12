@@ -11,6 +11,7 @@ print("*****************************")
 print("* instagram: @rafael_cyber1 *")
 print("*****************************")
 social_media_urls = {
+    'X/Twitter': 'https://x.com/{}/',
     'Instagram': 'https://www.instagram.com/{}',
     'Discord': 'https://discord.com/users/{}',
     'Reddit': 'https://www.reddit.com/user/{}',
@@ -81,7 +82,6 @@ social_media_urls = {
     'MercadoLivre': 'https://www.mercadolivre.com.br/{}',
     'Note': 'https://note.com/{}',
     'PicsArt': 'https://picsart.com/{}',
-    'Dailymotion': 'https://www.dailymotion.com/br/{}',
     'Cont.ws': 'https://cont.ws/@{}',
     'Estante Virtual': 'https://www.estantevirtual.com.br/busca?editora={}',
     'Kwai': 'https://www.kwai.com/@{}',
@@ -108,7 +108,6 @@ social_media_urls = {
     'Bsky': 'https://bsky.app/profile/{}.bsky.social',
     'Live Journal': 'https://{}.livejournal.com/',
     'Deviantart': 'https://www.deviantart.com/{}/gallery',
-    'Soundcloud': 'https://soundcloud.com/{}',
     'Last': 'https://www.last.fm/pt/user/{}',
     'Veoh': 'https://www.veoh.com/users/{}',
     'Behance': 'https://www.behance.net/{}',
@@ -131,8 +130,7 @@ social_media_urls = {
     'Eyeem': 'https://www.eyeem.com/u/{}',
     'Dribbble': 'https://dribbble.com/{}',
     'Members Fotki': 'https://members.fotki.com/{}/about/',
-    'Bebee': 'https://br.bebee.com/bee/{}',
-    'Daily Motion': 'https://www.dailymotion.com/{}',
+    'eyeem': 'https://br.eyeem.com/bee/{}',
     'Sound Cloud': 'https://soundcloud.com/{}',
     'Weibo': 'https://www.weibo.com/{}',
     'Kiwi Box': 'https://www.kiwibox.com/author/{}/',
@@ -141,7 +139,13 @@ social_media_urls = {
     'Viex Americanas': 'https://www.viex-americas.com/{}/',
     'Community Kobotoolbox': 'https://community.kobotoolbox.org/u/{}/summary',
     'Forum Asana': 'https://forum.asana.com/u/{}/summary',
-    'UFBA Academia': 'https://ufba.academia.edu/{}'
+    'UFBA Academia': 'https://ufba.academia.edu/{}',
+    'Community': 'https://community.auth0.com/u/{}/summary',
+    'Marautomation': 'https://www.marautomation.com/blog/author/{}/',
+    'Social Bund': 'https://social.bund.de/@{}',
+    'CurseForge': 'https://www.curseforge.com/members/{}/projects',
+    'Hatrick Sport': 'https://www.hatricksport.net/author/{}/',
+    'Pikabu': 'https://pikabu.ru/@{}'
 }
 
 # Cache simples para armazenar respostas de páginas
